@@ -8,21 +8,31 @@ G_API_KEY = os.environ.get("G_API_KEY")
 gmaps = googlemaps.Client(key=G_API_KEY)
 
 def add_location(activity):
-    lat = activity.get('start_latitude')
-    lon = activity.get('start_longitude')
-    
-    if lat is None or lon is None:
-        activity['location'] = "Unknown"
-        return activity
+    # start
+    start_lat = activity.get('start_latitude')
+    start_lon = activity.get('start_longitude')
+    # end
+    end_lat = activity.get('end_latitude')
+    end_lon = activity.get('end_longitude')
+
+    # Default
+    activity['start_location'] = "Unknown"
+    activity['end_location'] = "Unknown"
 
     try:
-        result = gmaps.reverse_geocode((lat, lon))
-        if result:
-            activity['location'] = result[0]['formatted_address']
-        else:
-            activity['location'] = "Unknown"
+        # Start location
+        if start_lat and start_lon:
+            start_result = gmaps.reverse_geocode((start_lat, start_lon))
+            if start_result:
+                activity['start_location'] = start_result[0]['formatted_address']
+        
+        # End location
+        if end_lat and end_lon:
+            end_result = gmaps.reverse_geocode((end_lat, end_lon))
+            if end_result:
+                activity['end_location'] = end_result[0]['formatted_address']
+
     except Exception as e:
         print("Geocoding error:", e)
-        activity['location'] = "Unknown"
 
     return activity
