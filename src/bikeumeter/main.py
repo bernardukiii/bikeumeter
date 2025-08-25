@@ -1,5 +1,6 @@
 from strava_api import get_activities
 from geocoder import add_location
+from spreadsheets import write_activity_to_sheet
 
 
 def main():
@@ -11,6 +12,7 @@ def main():
         # loop through the activities & decode location into address
         for act in activities:
             add_location(act)
+        write_activity_to_sheet(activities)
     else: 
         print("GET request failed :(")
 
