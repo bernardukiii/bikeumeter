@@ -12,3 +12,6 @@ def get_activities():
     headers = {
         "Authorization": f"Bearer {STRAVA_ACCESS_TOKEN}"
     }
+    response = requests.get(url, headers=headers)
+    response.raise_for_status() # if errors
+    return response.json()
