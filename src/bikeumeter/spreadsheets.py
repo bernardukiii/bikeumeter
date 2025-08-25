@@ -12,7 +12,7 @@ sheet_id = os.environ.get("GOOGLE_SHEET_ID")
 sheet = client.open_by_key(sheet_id)
 
 
-# function to write the activities to the sheet - takes the arg activity
+# function to write the activities to the sheet
 def write_activity_to_sheet(activities):
     id_list = set(sheet.sheet1.col_values(1))
 
