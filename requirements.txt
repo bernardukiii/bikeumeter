@@ -3,3 +3,6 @@ gspread
 oauth2client
 python-dotenv
 googlemaps
+google-api-python-client
+google-auth-httplib2 
+google-auth-oauthlib
