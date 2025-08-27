@@ -11,10 +11,10 @@ commute_acts = []
 
 def get_activities():
     url = f"{STRAVA_API}"
-    headers = {
-        "Authorization": f"Bearer {STRAVA_ACCESS_TOKEN}"
-    }
-    response = requests.get(url, headers=headers)
+    headers = { "Authorization": f"Bearer {STRAVA_ACCESS_TOKEN}" }
+    params = { "per_page": 4 } # i'm only interested in the latest ones || 4 in case I do 2 commute activities per day, but could be 2
+
+    response = requests.get(url, headers=headers, params=params)
     response.raise_for_status() # if errors
     # raw activities = all of them
     unfiltered_acts = response.json()
