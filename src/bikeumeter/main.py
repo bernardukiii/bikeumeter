@@ -1,11 +1,14 @@
 from strava_api import get_activities
 from geocoder import add_location
 from spreadsheets import write_activity_to_sheet
-
+from token_flow import refresh_access_token 
 
 def main():
-    print('Process started!')
-    activities = get_activities()
+    print('Refreshing tokens...')
+    access_token = refresh_access_token() # get token
+
+    print('Getting activities...')
+    activities = get_activities(access_token) # pass the token here where it is used
     
     if activities:
         print('Request came back with activities!')
