@@ -23,6 +23,4 @@ def get_activities():
         act_name = act['name'].lower()
         if 'commute' in act_name:
             commute_acts.append(act)
-            commute_acts_length = commute_acts.len()
-            print('commutes: ', commute_acts_length)
     return commute_acts
