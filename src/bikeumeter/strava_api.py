@@ -7,11 +7,11 @@ load_dotenv()
 STRAVA_API = os.environ.get("STRAVA_API")
 STRAVA_ACCESS_TOKEN = os.environ.get("STRAVA_ACCESS_TOKEN")
 
-commute_acts = []
+def get_activities(access_token):
+    commute_acts = [] # local list || not global
 
-def get_activities():
     url = f"{STRAVA_API}"
-    headers = { "Authorization": f"Bearer {STRAVA_ACCESS_TOKEN}" }
+    headers = { "Authorization": f"Bearer {access_token}" }
     params = { "per_page": 4 } # i'm only interested in the latest ones || 4 in case I do 2 commute activities per day, but could be 2
 
     response = requests.get(url, headers=headers, params=params)
