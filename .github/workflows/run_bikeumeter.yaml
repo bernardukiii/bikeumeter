@@ -2,7 +2,7 @@ name: Daily Strava Sync
 
 on:
   schedule:
-    - cron: "0 12 * * *"  # for testing purposes i changed it # runs daily at 23:59 UTC
+    - cron: "30 10 * * *"  # for testing purposes i changed it # runs daily at 23:59 UTC
   workflow_dispatch:  # allows manual trigger
 
 jobs:
