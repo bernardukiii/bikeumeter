@@ -1,11 +1,12 @@
-import gspread, os
+import gspread, os, json
 from google.oauth2.service_account import Credentials
 from dotenv import load_dotenv
 
 load_dotenv()
 
 scopes = ["https://www.googleapis.com/auth/spreadsheets"]
-creds = Credentials.from_service_account_file("../../sheets_creds.json", scopes=scopes)
+service_account_info = json.loads(os.environ["GOOGLE_SHEETS_CREDENTIALS_JSON"])
+creds = Credentials.from_service_account_info(service_account_info, scopes=scopes)
 client = gspread.authorize(creds)
 
 sheet_id = os.environ.get("GOOGLE_SHEET_ID")
