@@ -5,7 +5,7 @@ import time
 
 load_dotenv()
 
-G_API_KEY = os.environ.get("G_API_KEY")
+G_API_KEY = os.environ["G_API_KEY"]
 gmaps = googlemaps.Client(key=G_API_KEY)
 
 def add_location(activity):
