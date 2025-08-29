@@ -32,4 +32,5 @@ jobs:
           STRAVA_API: ${{ secrets.STRAVA_API }}
           G_API_KEY: ${{ secrets.G_API_KEY }}
           GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          GOOGLE_SHEETS_CREDS: ${{ secrets.GOOGLE_SHEETS_CREDS }}
         run: python src/bikeumeter/main.py

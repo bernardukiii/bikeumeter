@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 scopes = ["https://www.googleapis.com/auth/spreadsheets"]
-service_account_info = json.loads(os.environ["SHEETS_CREDS"])
+service_account_info = json.loads(os.environ["GOOGLE_SHEETS_CREDS"])
 creds = Credentials.from_service_account_info(service_account_info, scopes=scopes)
 client = gspread.authorize(creds)
 
