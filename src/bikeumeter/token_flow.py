@@ -24,4 +24,4 @@ def refresh_access_token():
     print("✅ Tokens refreshed successfully!")
 
     # On GitHub Actions, you can’t write .env — return them instead
-    return new_access_token, new_refresh_token
+    return tokens["access_token"], tokens["refresh_token"]
