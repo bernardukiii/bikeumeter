@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-STRAVA_API = os.environ.get("STRAVA_API")
+STRAVA_API = "https://www.strava.com/api/v3/athlete/activities"
 
 def get_activities(access_token):
     commute_acts = [] # local list || not global
