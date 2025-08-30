@@ -5,7 +5,7 @@ from token_flow import refresh_access_token
 
 def main():
     print('Refreshing tokens...')
-    access_token = refresh_access_token() # get token
+    access_token, _ = refresh_access_token() # get token # unpack tupple
 
     print('Getting activities...')
     activities = get_activities(access_token) # pass the token here where it is used
