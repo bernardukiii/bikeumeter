@@ -9,6 +9,8 @@ def main():
 
     print('Getting activities...')
     activities = get_activities(access_token) # pass the token here where it is used
+    # reverse order before writing
+    activities = list(reversed(activities)) # so it writes them in order to the sheet
     
     if activities:
         print('Request came back with activities!')
