@@ -1,17 +1,77 @@
-import re
-from playwright.sync_api import Page, expect
+import re, time
+from playwright.sync_api import Page, expect, sync_playwright
 
-def test_has_title(page: Page):
-    page.goto("https://playwright.dev/")
+def scrape_fare(page: Page):
+    page.goto("https://9292.nl/")
+    
+    time.sleep(1)
 
     # Expect a title "to contain" a substring.
-    expect(page).to_have_title(re.compile("Playwright"))
+    # going to have to do it for both english and dutch in case it opens either version
+    title = page.title()
 
-def test_get_started_link(page: Page):
-    page.goto("https://playwright.dev/")
+    if re.search("Where do you want to go?", title):
+        print('Eng version')
+        # find input, click on it, and input start address
+        from_input = page.get_by_role("textbox", name="from")
+        time.sleep(0.5)
+        from_input.click()
 
-    # Click the get started link.
-    page.get_by_role("link", name="Get started").click()
+        from_input.type('Ganzenhoef', delay=100)
+        time.sleep(0.3)
 
-    # Expects page to have a heading with the name of Installation.
-    expect(page.get_by_role("heading", name="Installation")).to_be_visible()
+        to_input = page.get_by_role("textbox", name="to")
+        time.sleep(0.4)
+        to_input.click()
+        time.sleep(0.2)
+        to_input.type('Rokin 69', delay=100)
+        time.sleep(0.8)
+
+        # fill in timetable | always 9am
+        time_input = page.get_by_role("textbox", name="time")
+        time.sleep(0.3)
+        time_input.click()
+        time.sleep(0.1)
+        time_input.type('09:00', delay=100)
+        time.sleep(1)
+
+        # click on the button and trigger the search
+        page.get_by_role("button", name="Plan your trip").click()
+
+    elif re.search("Waar wil je heen?", title):
+        print('NL version')
+        # find input, click on it, and input start address
+        from_input = page.get_by_role("textbox", name="from")
+        time.sleep(0.5)
+        from_input.click()
+
+        from_input.type('Ganzenhoef', delay=100)
+        time.sleep(0.3)
+
+        to_input = page.get_by_role("textbox", name="to")
+        time.sleep(0.4)
+        to_input.click()
+        time.sleep(0.2)
+        to_input.type('Rokin 69', delay=100)
+        time.sleep(0.8)
+
+        # fill in timetable | always 9am
+        time_input = page.get_by_role("textbox", name="time")
+        time.sleep(0.3)
+        time_input.click()
+        time.sleep(0.1)
+        time_input.type('09:00', delay=100)
+        time.sleep(1)
+
+        # click on the button and trigger the search
+        page.get_by_role("button", name="Plan je reis").click()
+    else:
+        print('Could not find title :(')
+
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=False)
+    page = browser.new_page()
+    scrape_fare(page)
+    time.sleep(10)  # keep browser open to see results
+    browser.close()
