@@ -26,6 +26,10 @@ def scrape_fare(page: Page):
 
         from_input.type('Ganzenhoef', delay=100)
         time.sleep(0.3)
+        # wait for the listbox to appear and click the first option
+        first_option = page.get_by_role("option").first
+        first_option.wait_for(state="visible")
+        first_option.click()
 
         to_input = page.get_by_role("combobox", name="naar")
         to_input.wait_for()
@@ -33,6 +37,10 @@ def scrape_fare(page: Page):
         time.sleep(0.2)
         to_input.type('Rokin 69', delay=100)
         time.sleep(0.8)
+        # wait for the listbox to appear and click the first option
+        first_option = page.get_by_role("option").first
+        first_option.wait_for(state="visible")
+        first_option.click()
 
         # fill in timetable | always 9am
         time_input = page.get_by_role("combobox", name="tijd")
