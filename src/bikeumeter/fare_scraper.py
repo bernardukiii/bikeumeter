@@ -14,14 +14,14 @@ def scrape_fare(page: Page):
         print('Eng version')
         # find input, click on it, and input start address
         from_input = page.get_by_role("textbox", name="from")
-        time.sleep(0.5)
+        from_input.wait_for()
         from_input.click()
 
         from_input.type('Ganzenhoef', delay=100)
-        time.sleep(0.3)
+        time.sleep(0.1)
 
         to_input = page.get_by_role("textbox", name="to")
-        time.sleep(0.4)
+        to_input.wait_for()
         to_input.click()
         time.sleep(0.2)
         to_input.type('Rokin 69', delay=100)
@@ -29,7 +29,7 @@ def scrape_fare(page: Page):
 
         # fill in timetable | always 9am
         time_input = page.get_by_role("textbox", name="time")
-        time.sleep(0.3)
+        time_input.wait_for()
         time_input.click()
         time.sleep(0.1)
         time_input.type('09:00', delay=100)
@@ -42,14 +42,14 @@ def scrape_fare(page: Page):
         print('NL version')
         # find input, click on it, and input start address
         from_input = page.get_by_role("textbox", name="from")
-        time.sleep(0.5)
+        from_input.wait_for()
         from_input.click()
 
         from_input.type('Ganzenhoef', delay=100)
         time.sleep(0.3)
 
         to_input = page.get_by_role("textbox", name="to")
-        time.sleep(0.4)
+        to_input.wait_for()
         to_input.click()
         time.sleep(0.2)
         to_input.type('Rokin 69', delay=100)
@@ -57,7 +57,7 @@ def scrape_fare(page: Page):
 
         # fill in timetable | always 9am
         time_input = page.get_by_role("textbox", name="time")
-        time.sleep(0.3)
+        time_input.wait_for()
         time_input.click()
         time.sleep(0.1)
         time_input.type('09:00', delay=100)
