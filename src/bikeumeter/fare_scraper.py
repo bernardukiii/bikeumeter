@@ -77,3 +77,5 @@ def scrape_fare(page: Page, start, end):
             print("Could not find prices :(")
     else:
         print('Could not find title :(')
+    
+    return median_price
