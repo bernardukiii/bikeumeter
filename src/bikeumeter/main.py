@@ -2,6 +2,8 @@ from strava_api import get_activities
 from geocoder import add_location
 from spreadsheets import write_activity_to_sheet
 from token_flow import refresh_access_token 
+from fare_scraper import scrape_fare
+from playwright.sync_api import sync_playwright
 
 def main():
     print('Refreshing tokens...')
@@ -14,9 +16,31 @@ def main():
     
     if activities:
         print('Request came back with activities!')
-        # loop through the activities & decode location into address
-        for act in activities:
-            add_location(act)
+        
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            page = browser.new_page()
+
+            for act in activities:
+                # Add location details (assume it sets from_address & to_address on act)
+                add_location(act)
+
+                from_addr = act.get("from_address")
+                to_addr = act.get("to_address")
+
+                if from_addr and to_addr:
+                    try:
+                        fare_value = scrape_fare(page, from_addr, to_addr)
+                        act["fare"] = fare_value  # store single value (e.g. median)
+                    except Exception as e:
+                        print(f"Failed to scrape fares for activity {act.get('id')}: {e}")
+                        act["fare"] = None
+                else:
+                    act["fare"] = None
+
+            browser.close()
+
+
         write_activity_to_sheet(activities)
     else: 
         print("GET request failed :(")
