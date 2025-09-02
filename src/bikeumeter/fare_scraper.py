@@ -1,7 +1,7 @@
 import time, statistics
 from playwright.sync_api import Page, sync_playwright
 
-def scrape_fare(page: Page):
+def scrape_fare(page: Page, start, end):
     page.goto("https://9292.nl/")
     
     time.sleep(1)
@@ -24,7 +24,7 @@ def scrape_fare(page: Page):
         from_input.wait_for()
         from_input.click()
 
-        from_input.type('Ganzenhoef', delay=100)
+        from_input.type(start, delay=100)
         time.sleep(0.3)
         # wait for the listbox to appear and click the first option
         first_option = page.get_by_role("option").first
@@ -35,7 +35,7 @@ def scrape_fare(page: Page):
         to_input.wait_for()
         to_input.click()
         time.sleep(0.2)
-        to_input.type('Rokin 69', delay=100)
+        to_input.type(end, delay=100)
         time.sleep(0.8)
         # wait for the listbox to appear and click the first option
         first_option = page.get_by_role("option").first
