@@ -52,6 +52,31 @@ def scrape_fare(page: Page):
 
         # click on the button and trigger the search
         page.get_by_role("button", name="Plan je reis").click()
+
+        # wait for results by waiting for the list items that contain the price
+        page.wait_for_selector("span.journeyPrice")
+
+        # get all prices
+        prices = page.locator("span.journeyPrice").all_text_contents()
+
+        print("price list: ", prices) # remove after testing
+
+        # clean them (remove €, spaces, and convert to float)
+        numeric_prices = []
+        for p in prices:
+            cleaned = p.replace("€", "").replace(",", ".").strip()
+            try:
+                numeric_prices.append(float(cleaned))
+            except ValueError:
+                pass  # skip if something goes wrong
+
+        print("Extracted prices:", numeric_prices)
+
+        if numeric_prices:
+            avg_price = sum(numeric_prices) / len(numeric_prices)
+            print("Average price:", round(avg_price, 2))
+        else:
+            print("Could not find prices :(")
     else:
         print('Could not find title :(')
 
