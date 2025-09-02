@@ -1,5 +1,5 @@
 import time, statistics
-from playwright.sync_api import Page, sync_playwright
+from playwright.sync_api import Page
 
 def scrape_fare(page: Page, start, end):
     page.goto("https://9292.nl/")
