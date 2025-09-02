@@ -77,10 +77,3 @@ def scrape_fare(page: Page, start, end):
             print("Could not find prices :(")
     else:
         print('Could not find title :(')
-
-
-with sync_playwright() as p:
-    browser = p.chromium.launch(headless=False)
-    page = browser.new_page()
-    scrape_fare(page)
-    browser.close()
