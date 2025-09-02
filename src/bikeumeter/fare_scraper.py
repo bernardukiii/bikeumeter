@@ -1,5 +1,5 @@
-import re, time, statistics
-from playwright.sync_api import Page, expect, sync_playwright
+import time, statistics
+from playwright.sync_api import Page, sync_playwright
 
 def scrape_fare(page: Page):
     page.goto("https://9292.nl/")
@@ -83,5 +83,4 @@ with sync_playwright() as p:
     browser = p.chromium.launch(headless=False)
     page = browser.new_page()
     scrape_fare(page)
-    time.sleep(10)  # keep browser open to see results
     browser.close()
