@@ -1,4 +1,4 @@
-import re, time
+import re, time, statistics
 from playwright.sync_api import Page, expect, sync_playwright
 
 def scrape_fare(page: Page):
@@ -73,8 +73,8 @@ def scrape_fare(page: Page):
         print("Extracted prices:", numeric_prices)
 
         if numeric_prices:
-            avg_price = sum(numeric_prices) / len(numeric_prices)
-            print("Average price:", round(avg_price, 2))
+            median_price = statistics.median(numeric_prices)
+            print("Median price:", median_price)
         else:
             print("Could not find prices :(")
     else:
