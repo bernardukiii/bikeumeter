@@ -16,9 +16,9 @@ def scrape_fare(page: Page):
     # Expect a title "to contain" a substring.
     # going to have to do it for both english and dutch in case it opens either version
     title = page.title()
-    print(page.accessibility.snapshot())
+    
     if title:
-        print('Page title ', title)
+        print('Found page, page title:', title)
         # find input, click on it, and input start address
         from_input = page.get_by_role("combobox", name="van")
         from_input.wait_for()
@@ -58,8 +58,6 @@ def scrape_fare(page: Page):
 
         # get all prices
         prices = page.locator("span.journeyPrice").all_text_contents()
-
-        print("price list: ", prices) # remove after testing
 
         # clean them (remove €, spaces, and convert to float)
         numeric_prices = []
