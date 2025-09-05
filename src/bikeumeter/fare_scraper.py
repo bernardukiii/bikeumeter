@@ -7,7 +7,7 @@ def scrape_fare(page: Page, start, end):
     time.sleep(1)
 
     # CLOSE COOKIE POPUP
-    cookie_popup_btn = page.get_by_role("button", name="Weigeren")
+    cookie_popup_btn = page.locator("button", has_text="Weigeren")
     cookie_popup_btn.wait_for()
     cookie_popup_btn.click()
 
