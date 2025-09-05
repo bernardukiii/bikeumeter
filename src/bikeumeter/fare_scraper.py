@@ -16,6 +16,7 @@ def scrape_fare(page: Page, start, end):
     # Expect a title "to contain" a substring.
     # going to have to do it for both english and dutch in case it opens either version
     title = page.title()
+    median_price = None # so that it always returns something, even if no median price
     
     if title:
         print('Found page, page title:', title)
