@@ -76,8 +76,6 @@ def scrape_fare(page: Page, start, end):
             except ValueError:
                 pass
 
-        print("Extracted prices:", numeric_prices)
-
         if numeric_prices:
             median_price = statistics.median(numeric_prices)
             print("Median price:", median_price)
