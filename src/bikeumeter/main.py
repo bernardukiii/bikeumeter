@@ -25,8 +25,8 @@ def main():
                 # Add location details (assume it sets from_address & to_address on act)
                 add_location(act)
 
-                from_addr = act.get("from_address")
-                to_addr = act.get("to_address")
+                from_addr = act.get("start_location")
+                to_addr = act.get("end_location")
 
                 if from_addr and to_addr:
                     try:
