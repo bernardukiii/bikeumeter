@@ -3,47 +3,56 @@ from playwright.sync_api import Page
 
 def scrape_fare(page: Page, start, end):
     page.goto("https://9292.nl/")
-    
     time.sleep(1)
 
-    # CLOSE COOKIE POPUP
-    cookie_popup_btn = page.locator("button", has_text="Weigeren")
-    cookie_popup_btn.wait_for()
-    cookie_popup_btn.click()
+    # --- CLOSE COOKIE POPUP ---
+    try:
+        # First try Dutch ("Weigeren")
+        cookie_popup_btn = page.get_by_role("button", name="Weigeren")
+        cookie_popup_btn.wait_for(timeout=5000)
+        cookie_popup_btn.click()
+        print("Closed cookie popup (Weigeren).")
+    except:
+        try:
+            # Fallback to English ("Reject")
+            cookie_popup_btn = page.get_by_role("button", name="Reject")
+            cookie_popup_btn.wait_for(timeout=5000)
+            cookie_popup_btn.click()
+            print("Closed cookie popup (Reject).")
+        except:
+            print("No cookie popup found.")
 
     time.sleep(0.5)
 
-    # Expect a title "to contain" a substring.
-    # going to have to do it for both english and dutch in case it opens either version
+    # --- CONTINUE WITH TRIP SEARCH ---
     title = page.title()
-    median_price = None # so that it always returns something, even if no median price
+    median_price = None  # always return something
     
     if title:
         print('Found page, page title:', title)
-        # find input, click on it, and input start address
+
+        # FROM input
         from_input = page.get_by_role("combobox", name="van")
         from_input.wait_for()
         from_input.click()
-
         from_input.type(start, delay=100)
         time.sleep(0.3)
-        # wait for the listbox to appear and click the first option
         first_option = page.get_by_role("option").first
         first_option.wait_for(state="visible")
         first_option.click()
 
+        # TO input
         to_input = page.get_by_role("combobox", name="naar")
         to_input.wait_for()
         to_input.click()
         time.sleep(0.2)
         to_input.type(end, delay=100)
         time.sleep(0.8)
-        # wait for the listbox to appear and click the first option
         first_option = page.get_by_role("option").first
         first_option.wait_for(state="visible")
         first_option.click()
 
-        # fill in timetable | always 9am
+        # TIME input (always 09:00)
         time_input = page.get_by_role("combobox", name="tijd")
         time_input.wait_for()
         time_input.click()
@@ -51,23 +60,21 @@ def scrape_fare(page: Page, start, end):
         time_input.type('09:00', delay=100)
         time.sleep(1)
 
-        # click on the button and trigger the search
+        # CLICK "Plan je reis"
         page.get_by_role("button", name="Plan je reis").click()
 
-        # wait for results by waiting for the list items that contain the price
-        page.wait_for_selector("span.journeyPrice")
-
-        # get all prices
+        # WAIT for prices
+        page.wait_for_selector("span.journeyPrice", timeout=15000)
         prices = page.locator("span.journeyPrice").all_text_contents()
 
-        # clean them (remove €, spaces, and convert to float)
+        # CLEAN & CONVERT
         numeric_prices = []
         for p in prices:
             cleaned = p.replace("€", "").replace(",", ".").strip()
             try:
                 numeric_prices.append(float(cleaned))
             except ValueError:
-                pass  # skip if something goes wrong
+                pass
 
         print("Extracted prices:", numeric_prices)
 
@@ -78,5 +85,5 @@ def scrape_fare(page: Page, start, end):
             print("Could not find prices :(")
     else:
         print('Could not find title :(')
-    
+
     return median_price
