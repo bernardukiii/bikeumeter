@@ -107,5 +107,8 @@ cython_debug/
 # env
 .env*
 
+# venv
+venv/
+
 # credentials for google sheets
 sheets_creds.json
