@@ -5,7 +5,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 scopes = ["https://www.googleapis.com/auth/spreadsheets"]
-service_account_info = json.loads(os.environ["GOOGLE_SHEETS_CREDS"])
+# When on github action it should go to the first if, for local runs, it should go to the else
+if "GOOGLE_SHEETS_CREDS" in os.environ:
+    service_account_info = json.loads(os.environ["GOOGLE_SHEETS_CREDS"])
+else:
+    with open("../../sheets_creds.json") as f:
+        service_account_info = json.load(f)
+
 creds = Credentials.from_service_account_info(service_account_info, scopes=scopes)
 client = gspread.authorize(creds)
 
