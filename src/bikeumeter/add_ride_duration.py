@@ -1,0 +1,1 @@
+# temporary script to go over past activities and get the ride duration
