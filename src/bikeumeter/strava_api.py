@@ -20,6 +20,6 @@ def get_activities(access_token):
     # filter activities
     for act in unfiltered_acts:
         act_name = act['name'].lower()
-        if 'commute' or 'swpf' or 'swapfiets' in act_name:
+        if 'commute' in act_name or 'swpf' in act_name or 'swapfiets' in act_name:
             commute_acts.append(act)
     return commute_acts
