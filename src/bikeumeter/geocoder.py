@@ -26,6 +26,13 @@ def add_location(activity):
             start_result = gmaps.reverse_geocode((start_lat, start_lon))
             if start_result:
                 activity['start_location'] = start_result[0]['formatted_address']
+            # Add the city
+            for component in start_result[0]['address_components']:
+                if 'locality' in component['types']:
+                    activity['start_city'] = component['long_name']
+                    break
+            else:
+                activity['start_city'] = "Unknown"
 
         # End location
         if end_coords and len(end_coords) == 2:
@@ -33,6 +40,13 @@ def add_location(activity):
             end_result = gmaps.reverse_geocode((end_lat, end_lon))
             if end_result:
                 activity['end_location'] = end_result[0]['formatted_address']
+            # Add the city
+            for component in end_result[0]['address_components']:
+                if 'locality' in component['types']:
+                    activity['end_city'] = component['long_name']
+                    break
+            else:
+                activity['end_city'] = "Unknown"
 
     except Exception as e:
         print("Geocoding error:", e)
