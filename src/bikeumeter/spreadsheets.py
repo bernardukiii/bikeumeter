@@ -25,6 +25,7 @@ def write_activity_to_sheet(activities):
     id_list = set(db_sheet.col_values(1))
 
     for act in activities:
+        print('ACTIVITY EXAMPLE ==>', act )
         if str(act["id"]) not in id_list:
             # I do need to add the public transport fare to this append_row function - but when I manage to calculate it by scraping
             db_sheet.append_row([act["id"], act["name"], act["city"], act["distance"], act["start_date"], act["fare"], act["elapsed_time"]])
